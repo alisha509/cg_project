@@ -1,10 +1,11 @@
 import pygame
+import sys
 
 pygame.init()
 
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("POP Example")
+pygame.display.set_caption("WITHIN THE BOUNDARIES")
 clock = pygame.time.Clock()
 
 bird_image = pygame.image.load('bird.png').convert_alpha()
@@ -49,27 +50,29 @@ def display_game_over(screen):
     screen.blit(game_over_image, (0, 0))
     pygame.display.flip()
 
-running = True
-last_time = pygame.time.get_ticks()
+def main():
+    last_time = pygame.time.get_ticks()
 
-while running:
-    current_time = pygame.time.get_ticks()
-    dt = (current_time - last_time) / 1000.0  
-    last_time = current_time
+    while True:
+        current_time = pygame.time.get_ticks()
+        dt = (current_time - last_time) / 1000.0  
+        last_time = current_time
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-    if player['game_over']:
-        display_game_over(screen)
-        continue
+        if player['game_over']:
+            display_game_over(screen)
+            continue
 
-    update_player(player, dt)
-    screen.fill((0, 0, 0))  
-    draw_player(screen, player)
-    pygame.display.flip() 
+        update_player(player, dt)
+        screen.fill((0, 0, 0))  
+        draw_player(screen, player)
+        pygame.display.flip() 
 
-    clock.tick(60)  
+        clock.tick(60)  
 
-pygame.quit()
+if __name__=="__main__":
+    main()
